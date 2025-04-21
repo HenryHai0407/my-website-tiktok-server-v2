@@ -78,15 +78,15 @@ class ProductRepository:
         self.db.commit()
 
     def search_by_name_or_summary(self, query: str) -> List[ProductModel]:
-        return self.db.query(ProductModel).filter(
-            (ProductModel.name.ilike(f"%{query}%")) |
-        (ProductModel.summary.ilike(f"%{query}%"))
-        ).all()
+        # return self.db.query(ProductModel).filter(
+        #     (ProductModel.name.ilike(f"%{query}%")) |
+        # (ProductModel.summary.ilike(f"%{query}%"))
+        # ).all()
     
         # Second solution:
-        # query = text("SELECT * FROM products WHERE name LIKE :query OR summary LIKE :query")
-        # result = self.db.execute(query, {"query":f"%{query}%"})
-        # return [ProductModel(**dict(row.__mapping)) for row in result]
+        query = text("SELECT * FROM products WHERE name LIKE :query OR summary LIKE :query")
+        result = self.db.execute(query, {"query":f"%{query}%"})
+        return [ProductModel(**dict(row.__mapping)) for row in result]
 
     def get_by_hot_product(self) -> List[ProductModel]:
         query = text("SELECT * FROM products WHERE hot_flg = 1")
