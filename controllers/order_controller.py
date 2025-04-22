@@ -29,3 +29,8 @@ def get_list(request: Request, db: Session = Depends(get_db_session)):
 def get_by_id(request: Request, order_id: int, db: Session = Depends(get_db_session)):
     service = OrderService(db)
     return service.get_by_id(order_id)
+
+@router.post("/add_to_cart",response_model=OrderDTO)
+def add_to_cart(request: Request, req: OrderDTOCreate, db = Session = Depends(get_db_session)):
+    service = OrderService(db)
+    return service.cart_create(req) # Remember to create cart_create via services, repository, Updating order model.

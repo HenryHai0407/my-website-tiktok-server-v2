@@ -89,6 +89,6 @@ class ProductRepository:
         return [ProductModel(**dict(row.__mapping)) for row in result]
 
     def get_by_hot_product(self) -> List[ProductModel]:
-        query = text("SELECT * FROM products WHERE hot_flg = 0")
+        query = text("SELECT * FROM products WHERE hot_flg IS NULL")
         result = self.db.execute(query)
         return [ProductModel(**dict(row._mapping)) for row in result]
